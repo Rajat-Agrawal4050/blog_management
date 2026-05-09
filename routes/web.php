@@ -24,8 +24,9 @@ Route::get('/add_blog', function () {
 });
 
 Route::get('/blog-detail/{id}', function ($id) {
-    
-    return view('blog-detail',compact('id'));
+   $posts= Post::latest()->take(4)->get();
+    $categories= Category::latest()->take(5)->get();
+    return view('blog-detail',compact('id','posts','categories'));
 })->name('blog-detail');
 
 Route::post('/login', [MyController::class, 'processLogin'])->name('auth.processLogin');

@@ -65,15 +65,6 @@ $post=Post::where('id',$id)->first();
       <span>Blog Detail</span>
     </div>
 
-      <!-- Search Bar -->
-    <div class="search-wrap">
-      <svg width="18" height="18" fill="none" stroke="#aaa" stroke-width="2" viewBox="0 0 24 24">
-        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-      </svg>
-      <input type="text" placeholder="Search keyword...">
-    
-      <button type="button">Search</button>
-    </div>
   </div>
 
   <!-- MAIN -->
@@ -96,63 +87,34 @@ $post=Post::where('id',$id)->first();
     <!-- SIDEBAR -->
     <aside class="sidebar">
 
-      <div class="sidebar-card">
-    <p class="card-heading">Blogs Categories</p>
-    <ul class="cat-list">
-      <li><a href="#"><span class="cat-left"><span class="cat-arrow">&#9658;</span> Admit Card</span><span class="cat-count">76</span></a></li>
-      <li><a href="#"><span class="cat-left"><span class="cat-arrow">&#9658;</span> Answer Key</span><span class="cat-count">20</span></a></li>
-      <li><a href="#"><span class="cat-left"><span class="cat-arrow">&#9658;</span> Calender</span><span class="cat-count">3</span></a></li>
-      <li><a href="#"><span class="cat-left"><span class="cat-arrow">&#9658;</span> Exam Date</span><span class="cat-count">9</span></a></li>
-      <li><a href="#"><span class="cat-left"><span class="cat-arrow">&#9658;</span> Information</span><span class="cat-count">31</span></a></li>
-      <li><a href="#"><span class="cat-left"><span class="cat-arrow">&#9658;</span> Jobs</span><span class="cat-count">189</span></a></li>
-      <li><a href="#"><span class="cat-left"><span class="cat-arrow">&#9658;</span> Result</span><span class="cat-count">89</span></a></li>
-    </ul>
-  </div>
+       <!-- Categories -->
+    <div class="sidebar-card">
+          <p class="card-heading">Categories</p>
+          <div class="cat-grid">
+ @foreach($categories as $cat)
+            <a href="javascript:Void(0)" class="cat-pill">{{ $cat->title }}</a>
+             @endforeach
+          </div>
+        </div>
 
-      <div class="sidebar-card">
-    <p class="card-heading">Post Date</p>
-    <ul class="cat-list">
-      <li><a href="#"><span class="cat-left"><span class="cat-arrow">&#9658;</span> Today</a></li>
-      <li><a href="#"><span class="cat-left"><span class="cat-arrow">&#9658;</span> This Week</a></li>
-      <li><a href="#"><span class="cat-left"><span class="cat-arrow">&#9658;</span> This Month</a></li>
-      <li><a href="#"><span class="cat-left"><span class="cat-arrow">&#9658;</span> Last Three Month</a></li>
-      <li><a href="#"><span class="cat-left"><span class="cat-arrow">&#9658;</span> This Year</a></li>
-    </ul>
-  </div>
 
   <!-- Recent Blogs -->
   <div class="sidebar-card">
-    <p class="card-heading">Recent Blogs</p>
-    <ul class="recent-list">
-      <li>
-        <div class="post-thumb">
-          <img src="image1.jpg" alt="Central Bank of India AGM">
-        </div>
-        <div class="post-meta">
-          <a class="post-title" href="#">Central Bank of India AGM Recruitment 2026…</a>
-          <span class="post-date">04 May 2026</span>
-        </div>
-      </li>
-      <li>
-        <div class="post-thumb">
-          <img src="image2.jpg" alt="MPSC Civil Judge">
-        </div>
-        <div class="post-meta">
-          <a class="post-title" href="#">MPSC Civil Judge Recruitment 2026…</a>
-          <span class="post-date">04 May 2026</span>
-        </div>
-      </li>
-      <li>
-        <div class="post-thumb">
-          <img src="image3.jpg" alt="HPBOSE 12th Result">
-        </div>
-        <div class="post-meta">
-          <a class="post-title" href="#">HPBOSE 12th Result 2026 OUT…</a>
-          <span class="post-date">04 May 2026</span>
-        </div>
-      </li>
-    </ul>
-  </div>
+        <p class="card-heading">Recent Blogs</p>
+        <ul class="recent-list">
+          @foreach($posts as $p)
+          <li>
+            <div class="post-thumb">
+              <img src="/uploads/{{ $p->image }}" alt="Central Bank of India AGM">
+            </div>
+            <div class="post-meta">
+              <a class="post-title" href="#">{{ $p->title }}</a>
+              <span class="post-date"> {{ $p->created_at->format('d M Y') }}</span>
+            </div>
+          </li>
+          @endforeach
+        </ul>
+      </div>
 
     </aside>
   </div>

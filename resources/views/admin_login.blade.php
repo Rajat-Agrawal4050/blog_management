@@ -59,17 +59,6 @@
             <span>/</span>
             <span>Login</span>
         </div>
-
-        <!-- Search Bar -->
-        <div class="search-wrap">
-            <svg width="18" height="18" fill="none" stroke="#aaa" stroke-width="2" viewBox="0 0 24 24">
-                <circle cx="11" cy="11" r="8" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-            </svg>
-            <input type="text" placeholder="Search keyword...">
-
-            <button type="button">Search</button>
-        </div>
     </div>
 
     <!-- MAIN -->

@@ -13,6 +13,8 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/sweet-alert2/sweetalert2.min.css">
+
 </head>
 
 <body>
@@ -64,9 +66,9 @@
         <circle cx="11" cy="11" r="8" />
         <line x1="21" y1="21" x2="16.65" y2="16.65" />
       </svg>
-      <input type="text" placeholder="Search keyword...">
+      <input type="text" id="keyword" placeholder="Search keyword...">
 
-      <button type="button">Search</button>
+      <button id="searchBar" type="button">Search</button>
     </div>
   </div>
 
@@ -84,7 +86,7 @@
         <p class="card-heading">Blogs Categories</p>
         <ul class="cat-list">
           @foreach($categories as $cat)
-          <li><a href="#" data-val="{{ $cat->title }}" class="blog_cat"><span class="cat-left"> <input type="checkbox" class="form-check-input category-filter" value="{{ $cat->id }}">  {{ $cat->title }}</span><span class="cat-count">{{ $cat->posts()->count() }}</span></a></li>
+          <li><a href="#" data-val="{{ $cat->title }}" class="blog_cat"><span class="cat-left"> <input type="checkbox" class="form-check-input category-filter" value="{{ $cat->id }}"> {{ $cat->title }}</span><span class="cat-count">{{ $cat->posts()->count() }}</span></a></li>
           @endforeach
         </ul>
       </div>
@@ -92,11 +94,11 @@
       <div class="sidebar-card">
         <p class="card-heading">Post Date</p>
         <ul class="cat-list">
-          <li><a href="#"><span class="cat-left"><input type="checkbox" class="form-check-input date-filter" value="today"> Today</a></li>
-          <li><a href="#"><span class="cat-left"><input type="checkbox" class="form-check-input date-filter" value="this_week"> This Week</a></li>
-          <li><a href="#"><span class="cat-left"><input type="checkbox" class="form-check-input date-filter" value="this_month"> This Month</a></li>
-          <li><a href="#"><span class="cat-left"><input type="checkbox" class="form-check-input date-filter" value="last_three_month"> Last Three Month</a></li>
-          <li><a href="#"><span class="cat-left"><input type="checkbox" class="form-check-input date-filter" value="this_year"> This Year</a></li>
+          <li><a href="#"><span class="cat-left"><input type="checkbox" class="form-check-input date-filter" value="<?php echo date('Y-m-d'); ?>"> Today</a></li>
+          <li><a href="#"><span class="cat-left"><input type="checkbox" class="form-check-input date-filter" value="<?php echo date('Y-m-d', strtotime('-7 days')); ?>"> This Week</a></li>
+          <li><a href="#"><span class="cat-left"><input type="checkbox" class="form-check-input date-filter" value="<?php echo date('Y-m-d', strtotime('-1 month')); ?>"> This Month</a></li>
+          <li><a href="#"><span class="cat-left"><input type="checkbox" class="form-check-input date-filter" value="<?php echo date('Y-m-d', strtotime('-3 month')); ?>"> Last Three Month</a></li>
+          <li><a href="#"><span class="cat-left"><input type="checkbox" class="form-check-input date-filter" value="<?php echo date('Y-m-d', strtotime('-1 year')); ?>"> This Year</a></li>
         </ul>
       </div>
 
@@ -123,6 +125,8 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script src="/sweet-alert2/sweetalert2.min.js"></script>
+
   <script>
     const ham = document.getElementById('ham');
     const mNav = document.getElementById('mobileNav');
@@ -131,6 +135,12 @@
 
   <script>
     let blogs = [];
+    let filteredBlogs = [];
+
+    let selectedCategories = [];
+    let selectedDates = [];
+    let searchKeyword = '';
+
     let limit = 5;
     let start = 0;
 
@@ -142,7 +152,12 @@
         success: function(resp) {
           console.log(resp)
           blogs = resp;
-          renderTable();
+          filteredBlogs = blogs;
+
+          start = 0;
+          limit = 5;
+
+          renderTable(true);
         },
         error: function(xhr, status, code) {
           console.error(xhr);
@@ -162,15 +177,117 @@
 
         start += limit;
         limit += 5;
-        fetchData();
+
+        renderTable(false);
 
       }
     });
 
-    function renderTable() {
-      const rows = blogs.slice(start, limit);
+    function applyFilters() {
+
+      filteredBlogs = blogs.filter(blog => {
+
+        //  Category Filter
+
+        let categoryMatch = true;
+
+        if (selectedCategories.length > 0) {
+
+          categoryMatch = selectedCategories.includes(
+            blog.category.id.toString()
+          );
+        }
+
+        // Date Filter
+
+        let dateMatch = true;
+
+        if (selectedDates.length > 0) {
+
+          dateMatch = false;
+          const blogDate = new Date(blog.created_at).toISOString().split('T')[0];
+          // console.log(blogDate)
+          selectedDates.forEach(function(date) {
+            if (blogDate >= date) {
+              dateMatch = true;
+            }
+          })
+        }
+
+        // SEARCH FILTER
+        let keywordMatch = true;
+
+        if (searchKeyword !== '') {
+
+          keywordMatch =
+            blog.title.toLowerCase().includes(searchKeyword) ||
+            blog.short_description.toLowerCase().includes(searchKeyword);
+        }
+
+        return categoryMatch && dateMatch && keywordMatch;
+      });
+
+      // Reset Pagination
+
+      start = 0;
+      limit = 5;
+
+      renderTable(true);
+    }
+
+    // CATEGORY FILTER
+
+    $(document).on('change', '.category-filter', function() {
+
+      selectedCategories = [];
+
+      $('.category-filter:checked').each(function() {
+        selectedCategories.push($(this).val());
+      });
+      console.log(selectedCategories)
+
+      applyFilters();
+    });
+
+    // DATE FILTER
+    $(document).on('change', '.date-filter', function() {
+
+      selectedDates = [];
+
+      $('.date-filter:checked').each(function() {
+
+        selectedDates.push($(this).val());
+      });
+      console.log('selected_dates' + selectedDates)
+      applyFilters();
+    });
+
+    // SEARCH FILTER
+    $('#searchBar').on('click', function() {
+
+      searchKeyword = $('#keyword').val().trim().toLowerCase();
+
+      if (searchKeyword === '') {
+        Swal.fire('error', 'Enter Any Keyword', 'error');
+        return;
+      }
+
+      applyFilters();
+    });
+
+
+    function renderTable(clear = false) {
+      const rows = filteredBlogs.slice(start, limit);
       const tbody = document.getElementById('tableBody');
+
+      // CLEAR OLD DATA
+      if (clear) {
+        tbody.innerHTML = '';
+      }
+
+      result = false;
       tbody.innerHTML += rows.map(b => {
+        result = true;
         const date = new Date(b.created_at);
 
         const formatted = date.toLocaleDateString('en-GB', {
@@ -195,9 +312,15 @@
       </article>
     `
       }).join('');
-    }
 
-   
+      if (!result) {
+        tbody.innerHTML = `
+      <div style="margin-top:5%;" class="alert alert-danger alert-dismissible fade show">
+        No Result Found
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>`;
+      }
+    }
   </script>
 
 </body>
