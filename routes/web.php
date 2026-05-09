@@ -17,11 +17,11 @@ Route::get('/admin_login', function () {
 
 Route::get('/all_blogs', function () {
     return view('all_blogs');
-});
+})->middleware('admin');
 
 Route::get('/add_blog', function () {
     return view('add_blog',['categories'=> Category::all()]);
-});
+})->middleware('admin');
 
 Route::get('/blog-detail/{id}', function ($id) {
    $posts= Post::latest()->take(4)->get();
@@ -42,4 +42,4 @@ Route::get('/edit-blog/{id}', function ($id) {
 })->name('edit-blog');
 
 Route::post('/blog/edit', [MyController::class, 'edit'])
-    ->name('blog.edit');
+    ->name('blog.edit')->middleware('admin');

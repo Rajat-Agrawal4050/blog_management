@@ -7,6 +7,31 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Tech used
+
+Html,css,javascript,jquery,ajax,php,laravel,mysql 
+
+## Features 
+
+Blogs Listing
+Filters By date, category, search keyword
+Blog Detail Page
+Admin Login
+Admin can Add, Edit, Delete Blogs
+Images Upload and Rich Text Editor
+
+## Credentials for Admin Login
+
+email- admin@gmail.com
+password- 123
+
+## Setup Project 
+
+Create database named blog_management
+First Run php artisan migrate and db:seed commands to use database tables
+then run server to see the project on browser
+
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:

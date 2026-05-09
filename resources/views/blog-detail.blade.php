@@ -2,7 +2,7 @@
 
 use App\Models\Post;
 
-$post=Post::where('id',$id)->first();
+$post = Post::where('id', $id)->first();
 
 ?>
 <!DOCTYPE html>
@@ -19,7 +19,7 @@ $post=Post::where('id',$id)->first();
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
@@ -73,33 +73,37 @@ $post=Post::where('id',$id)->first();
     <!-- BLOG DETAIL -->
     <main class="blog-list">
 
-  <div class="img_container" style="background-image: url('/uploads/{{ $post->image }}');">
-  </div>
+      <div class="img_container" style="background-image: url('/uploads/{{ $post->image }}');">
+      </div>
 
-  <div><span class="post-date3">{{ \Carbon\Carbon::parse($post->created_at)->format('d M Y') }}</span></div>
+      <div><span class="post-date3">{{ \Carbon\Carbon::parse($post->created_at)->format('d M Y') }}</span></div>
 
-  <div class="heading"><h5>{{ $post->title }}</h5></div>
-  <div class="description"><p class="description">{{ $post->short_description }}</p></div>
+      <div class="heading">
+        <h5>{{ $post->title }}</h5>
+      </div>
+      <div class="description">
+        <p class="description">{{ $post->short_description }}</p>
+      </div>
 
-            <div class="content"><?php echo $post->content ?></div>
+      <div class="content"><?php echo $post->content ?></div>
     </main>
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
 
-       <!-- Categories -->
-    <div class="sidebar-card">
-          <p class="card-heading">Categories</p>
-          <div class="cat-grid">
- @foreach($categories as $cat)
-            <a href="javascript:Void(0)" class="cat-pill">{{ $cat->title }}</a>
-             @endforeach
-          </div>
+      <!-- Categories -->
+      <div class="sidebar-card">
+        <p class="card-heading">Categories</p>
+        <div class="cat-grid">
+          @foreach($categories as $cat)
+          <a href="javascript:Void(0)" class="cat-pill">{{ $cat->title }}</a>
+          @endforeach
         </div>
+      </div>
 
 
-  <!-- Recent Blogs -->
-  <div class="sidebar-card">
+      <!-- Recent Blogs -->
+      <div class="sidebar-card">
         <p class="card-heading">Recent Blogs</p>
         <ul class="recent-list">
           @foreach($posts as $p)
