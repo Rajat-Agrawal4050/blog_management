@@ -85,8 +85,14 @@
       <div class="sidebar-card">
         <p class="card-heading">Blogs Categories</p>
         <ul class="cat-list">
+          @php $count = 0; @endphp
+
           @foreach($categories as $cat)
-          <li><a href="#" data-val="{{ $cat->title }}" class="blog_cat"><span class="cat-left"> <input type="checkbox" class="form-check-input category-filter" value="{{ $cat->id }}"> {{ $cat->title }}</span><span class="cat-count">{{ $cat->posts()->count() }}</span></a></li>
+          @break($count == 5)
+          @if($cat->posts_count>0)
+          <li><a href="#" data-val="{{ $cat->title }}" class="blog_cat"><span class="cat-left"> <input type="checkbox" class="form-check-input category-filter" value="{{ $cat->id }}"> {{ $cat->title }}</span><span class="cat-count">{{ $cat->posts_count }}</span></a></li>
+          @php $count++; @endphp
+          @endif
           @endforeach
         </ul>
       </div>
@@ -170,7 +176,7 @@
     var windowHeight = $(window).height();
 
     $(window).on("scroll", function() {
-      var windowTop = $(window).scrollTop() + 1;
+      var windowTop = $(window).scrollTop() + 120;
 
       if (windowTop >= windowHeight) {
         windowHeight = $(window).height() + windowTop - 100;
@@ -187,8 +193,6 @@
 
       filteredBlogs = blogs.filter(blog => {
 
-        //  Category Filter
-
         let categoryMatch = true;
 
         if (selectedCategories.length > 0) {
@@ -197,8 +201,6 @@
             blog.category.id.toString()
           );
         }
-
-        // Date Filter
 
         let dateMatch = true;
 
@@ -214,7 +216,6 @@
           })
         }
 
-        // SEARCH FILTER
         let keywordMatch = true;
 
         if (searchKeyword !== '') {
@@ -231,11 +232,9 @@
 
       start = 0;
       limit = 5;
-
+      // console.log(filteredBlogs)
       renderTable(true);
     }
-
-    // CATEGORY FILTER
 
     $(document).on('change', '.category-filter', function() {
 
@@ -249,7 +248,6 @@
       applyFilters();
     });
 
-    // DATE FILTER
     $(document).on('change', '.date-filter', function() {
 
       selectedDates = [];
@@ -262,7 +260,6 @@
       applyFilters();
     });
 
-    // SEARCH FILTER
     $('#searchBar').on('click', function() {
 
       searchKeyword = $('#keyword').val().trim().toLowerCase();
@@ -280,7 +277,6 @@
       const rows = filteredBlogs.slice(start, limit);
       const tbody = document.getElementById('tableBody');
 
-      // CLEAR OLD DATA
       if (clear) {
         tbody.innerHTML = '';
       }
@@ -314,8 +310,8 @@
       }).join('');
 
       if (!result) {
-        tbody.innerHTML = `
-      <div style="margin-top:5%;" class="alert alert-danger alert-dismissible fade show">
+        tbody.innerHTML += `
+      <div style="margin-top:5%;" class="text-center alert alert-danger alert-dismissible fade show">
         No Result Found
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>`;

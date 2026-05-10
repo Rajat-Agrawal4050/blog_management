@@ -7,7 +7,7 @@ use App\Models\Post;
 
 Route::get('/', function () {
    $posts= Post::latest()->take(4)->get();
-   $categories= Category::latest()->take(5)->get();
+   $categories= Category::withCount('posts')->latest()->get();
     return view('index',compact('posts','categories'));
 });
 
