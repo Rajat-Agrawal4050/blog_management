@@ -173,19 +173,16 @@
 
     fetchData();
 
-    var windowHeight = $(window).height();
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
 
-    $(window).on("scroll", function() {
-      var windowTop = $(window).scrollTop() + 120;
-
-      if (windowTop >= windowHeight) {
-        windowHeight = $(window).height() + windowTop - 100;
-
+      if (scrollTop + windowHeight >= docHeight - 200) {
         start += limit;
         limit += 5;
 
         renderTable(false);
-
       }
     });
 
@@ -232,7 +229,7 @@
 
       start = 0;
       limit = 5;
-      // console.log(filteredBlogs)
+      console.log(filteredBlogs)
       renderTable(true);
     }
 
@@ -309,13 +306,13 @@
     `
       }).join('');
 
-      if (!result) {
-        tbody.innerHTML += `
-      <div style="margin-top:5%;" class="text-center alert alert-danger alert-dismissible fade show">
-        No Result Found
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>`;
-      }
+    //   if (!result) {
+    //     tbody.innerHTML += `
+    //   <div style="margin-top:5%;" class="text-center alert alert-danger alert-dismissible fade show">
+    //     No Result Found
+    //     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    // </div>`;
+    //   }
     }
   </script>
 
