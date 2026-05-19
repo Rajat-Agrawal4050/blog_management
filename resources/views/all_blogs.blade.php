@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JobYaari – Blogs</title>
+  <title>JobYaari – Admin Panel</title>
   <link
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap"
     rel="stylesheet" />
@@ -18,45 +18,15 @@
 
 <body>
 
-  <!-- HEADER -->
-  <header>
-    <div class="nav-inner">
-      <a class="logo" href="#">
-        <div class="logo-icon">JY</div>
-        <span class="logo-text">JobYaari</span>
-      </a>
-      <nav>
-        <a href="#">Home</a>
-        <a href="#" class="nav-jobs">Jobs</a>
-        <a href="#">Admit Card</a>
-        <a href="#">Result</a>
-        <a href="#">About</a>
-        <a href="#" class="active">Blogs</a>
-        <a href="#">Contact</a>
-      </nav>
-      <a class="whatsapp-btn" href="#" title="WhatsApp"><i class="fab fa-whatsapp fa-lg"></i></a>
-      <button class="hamburger" id="ham" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-    <div class="mobile-nav" id="mobileNav">
-      <a href="#">Home</a>
-      <a href="#">Jobs ▾</a>
-      <a href="#">Admit Card</a>
-      <a href="#">Result</a>
-      <a href="#">About</a>
-      <a href="#" style="color:var(--blue)">Blogs</a>
-      <a href="#">Contact</a>
-    </div>
-  </header>
+ @include('header')
 
   <!-- HERO BANNER -->
   <div class="hero">
-    <h1>Blogs</h1>
+    <h1>Admin</h1>
     <div class="breadcrumb d-flex justify-content-center">
       <a href="#">Home</a>
       <span>/</span>
-      <span>All Blogs</span>
+      <span>Admin Panel</span>
     </div>
 
   </div>
@@ -71,9 +41,10 @@
         <div class="sidebar-card" style="min-height: 100vh;">
           <p class="card-heading">Admin - Rajat Agrawal</p>
           <ul class="cat-list">
-            <li><a href="#"><span class="cat-left"><span class="cat-arrow">&#9658;</span> Dashboard</span></a></li>
-            <li><a href="#"><span class="cat-left"><span class="cat-arrow">&#9658;</span> Add Blogs</span></a></li>
-            <li><a href="#"><span class="cat-left"><span class="cat-arrow">&#9658;</span> Logout</span></a></li>
+            <li><a href="/all_blogs"><span class="cat-left"><span class="cat-arrow">&#9658;</span> Dashboard</span></a></li>
+            <li><a href="/add_blog"><span class="cat-left"><span class="cat-arrow">&#9658;</span> Add Blogs</span></a></li>
+            <li><a href="/all_comments"><span class="cat-left"><span class="cat-arrow">&#9658;</span> All Comments</span></a></li>
+            <li><a href="/api/auth/logout"><span class="cat-left"><span class="cat-arrow">&#9658;</span> Logout</span></a></li>
 
           </ul>
         </div>
@@ -143,11 +114,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   <script src="/sweet-alert2/sweetalert2.min.js"></script>
-  <script>
-    const ham = document.getElementById('ham');
-    const mNav = document.getElementById('mobileNav');
-    ham.addEventListener('click', () => mNav.classList.toggle('open'));
-  </script>
+ <script src="/js/custom-js.js"></script>
 
   <script>
     let blogs = [];
@@ -273,6 +240,11 @@ $.ajax({
           },
           error: function(xhr, status, code) {
             console.error(xhr.responseText);
+              if (xhr.status === 401 || xhr.status === 403) {
+
+                let response = JSON.parse(xhr.responseText);
+                Swal.fire('error', response.message, 'error');
+              }
           }
 
         })

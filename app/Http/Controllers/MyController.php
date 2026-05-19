@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use DOMDocument;
 use Illuminate\Support\Str;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class MyController extends Controller
 {
@@ -14,12 +17,34 @@ class MyController extends Controller
     public function processLogin(Request $req)
     {
 
-        if ($req->email != 'admin@gmail.com' && $req->password != 123) {
-            return response()->json(['status' => false, 'message' => 'Invalid Credentials.']);
-        }
+        $admin = User::where('email', $req->email)->where('role', 'admin')->first();
 
-        session()->put('admin_login', 1);
-        return response()->json(['status' => true, 'message' => 'Successfully Logged in.']);
+        if ($admin) {
+            $token = auth()->attempt(['email' => $req->email, 'password' => $req->password]);
+
+            if (!$token) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Invalid credentials.',
+                ], 401);
+            }
+
+            setcookie('jwt_token', $token, time() + 3600, '/');
+
+            return response()->json([
+                'status' => true,
+                'token' => $token,
+                'token_type'   => 'bearer',
+                'expires_in'   => Auth::factory()->getTTL() * 60,
+                'user'         => Auth::user(),
+                'message' => 'Successfully Logged in.'
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid Email.',
+            ], 404);
+        }
     }
 
     public function getBlogs(Request $req)
@@ -118,9 +143,11 @@ class MyController extends Controller
 
         $imageName = null;
 
+        // dd($request->all());
+
         $post = Post::findOrFail($request->blog_id);
 
-        if ($request->hasFile('image') && $request->filled('image')) {
+        if ($request->hasFile('image')) {
 
             if ($post->image && file_exists(public_path('uploads/' . $post->image))) {
 

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>JobYaari – Blogs</title>
+    <title>JobYaari – Admin Panel</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap"
         rel="stylesheet" />
@@ -25,45 +25,15 @@
 
 <body>
 
-    <!-- HEADER -->
-    <header>
-        <div class="nav-inner">
-            <a class="logo" href="#">
-                <div class="logo-icon">JY</div>
-                <span class="logo-text">JobYaari</span>
-            </a>
-            <nav>
-                <a href="#">Home</a>
-                <a href="#" class="nav-jobs">Jobs</a>
-                <a href="#">Admit Card</a>
-                <a href="#">Result</a>
-                <a href="#">About</a>
-                <a href="#" class="active">Blogs</a>
-                <a href="#">Contact</a>
-            </nav>
-            <a class="whatsapp-btn" href="#" title="WhatsApp"><i class="fab fa-whatsapp fa-lg"></i></a>
-            <button class="hamburger" id="ham" aria-label="Menu">
-                <span></span><span></span><span></span>
-            </button>
-        </div>
-        <div class="mobile-nav" id="mobileNav">
-            <a href="#">Home</a>
-            <a href="#">Jobs ▾</a>
-            <a href="#">Admit Card</a>
-            <a href="#">Result</a>
-            <a href="#">About</a>
-            <a href="#" style="color:var(--blue)">Blogs</a>
-            <a href="#">Contact</a>
-        </div>
-    </header>
+    @include('header')
 
     <!-- HERO BANNER -->
     <div class="hero">
-        <h1>Blogs</h1>
+        <h1>Admin</h1>
         <div class="breadcrumb d-flex justify-content-center">
             <a href="#">Home</a>
             <span>/</span>
-            <span>New Blog</span>
+            <span>Admin Panel</span>
         </div>
 
     </div>
@@ -78,12 +48,10 @@
                 <div class="sidebar-card" style="min-height: 100vh;">
                     <p class="card-heading">Admin - Rajat Agrawal</p>
                     <ul class="cat-list">
-                        <li><a href="#"><span class="cat-left"><span class="cat-arrow">&#9658;</span>
-                                    Dashboard</span></a></li>
-                        <li><a href="#"><span class="cat-left"><span class="cat-arrow">&#9658;</span> Add
-                                    Blogs</span></a></li>
-                        <li><a href="#"><span class="cat-left"><span class="cat-arrow">&#9658;</span> Logout</span></a>
-                        </li>
+                        <li><a href="/all_blogs"><span class="cat-left"><span class="cat-arrow">&#9658;</span> Dashboard</span></a></li>
+                        <li><a href="/add_blog"><span class="cat-left"><span class="cat-arrow">&#9658;</span> Add Blogs</span></a></li>
+                        <li><a href="/all_comments"><span class="cat-left"><span class="cat-arrow">&#9658;</span> All Comments</span></a></li>
+                        <li><a href="/api/auth/logout"><span class="cat-left"><span class="cat-arrow">&#9658;</span> Logout</span></a></li>
 
                     </ul>
                 </div>
@@ -105,12 +73,12 @@
                                 <label class="form-label">Categories</label>
                                 <select name="category" class="form-select">
                                     <option value="" disabled="" selected="">Select Category</option>
-                                     @foreach($categories as $category)
-                    <option value="{{ $category->id }}">
-                        {{ $category->title }}
-                    </option>
-                @endforeach
-                                  
+                                    @foreach($categories as $category)
+                                    <option value="{{ $category->id }}">
+                                        {{ $category->title }}
+                                    </option>
+                                    @endforeach
+
                                 </select>
                                 <span class="text-danger error-text category_error"></span>
                             </div>
@@ -134,7 +102,7 @@
 
                                 <img src="/images/choose_image.jpeg" id="img_output" onclick="document.getElementById('image').click();"
                                     alt="image" style="width: 250px; height: 150px">
-                                     <br>
+                                <br>
                                 <span class="text-danger error-text image_error"></span>
                                 <input id="image" hidden
                                     onchange="document.querySelector('#img_output').src=window.URL.createObjectURL(this.files[0])"
@@ -153,7 +121,7 @@
 
                         <!-- Actions -->
                         <div class="action-row">
-                           
+
                             <button type="submit" class="btn-publish"><i class="ti ti-send" style="font-size:15px" aria-hidden="true"></i>
                                 Publish</button>
                         </div>
@@ -174,18 +142,14 @@
         crossorigin="anonymous"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-<script src="/sweet-alert2/sweetalert2.min.js"></script>
+    <script src="/sweet-alert2/sweetalert2.min.js"></script>
 
     <script>
         $('#myEditor').summernote({
             height: 400,
         });
     </script>
-    <script>
-        const ham = document.getElementById('ham');
-        const mNav = document.getElementById('mobileNav');
-        ham.addEventListener('click', () => mNav.classList.toggle('open'));
-    </script>
+    <script src="/js/custom-js.js"></script>
 
     <script>
         $(document).ready(function() {
@@ -213,13 +177,18 @@
                             Swal.fire('success', response.message, 'success');
                             $('#blogForm')[0].reset();
                             $('#image').val('');
-                            $('#img_output').attr('src','/images/choose_image.jpeg');
+                            $('#img_output').attr('src', '/images/choose_image.jpeg');
                             $('#myEditor').summernote('code', '');
                         }
                     },
 
                     error: function(xhr) {
 
+                        if (xhr.status === 401 || xhr.status === 403) {
+
+                            let response = JSON.parse(xhr.responseText);
+                            Swal.fire('error', response.message, 'error');
+                        }
                         if (xhr.status == 422) {
 
                             let errors = xhr.responseJSON.errors;

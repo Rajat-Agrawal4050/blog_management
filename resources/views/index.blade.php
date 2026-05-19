@@ -19,37 +19,7 @@
 
 <body>
 
-  <!-- HEADER -->
-  <header>
-    <div class="nav-inner">
-      <a class="logo" href="#">
-        <div class="logo-icon">JY</div>
-        <span class="logo-text">JobYaari</span>
-      </a>
-      <nav>
-        <a href="#">Home</a>
-        <a href="#" class="nav-jobs">Jobs</a>
-        <a href="#">Admit Card</a>
-        <a href="#">Result</a>
-        <a href="#">About</a>
-        <a href="#" class="active">Blogs</a>
-        <a href="#">Contact</a>
-      </nav>
-      <a class="whatsapp-btn" href="#" title="WhatsApp"><i class="fab fa-whatsapp fa-lg"></i></a>
-      <button class="hamburger" id="ham" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-    <div class="mobile-nav" id="mobileNav">
-      <a href="#">Home</a>
-      <a href="#">Jobs ▾</a>
-      <a href="#">Admit Card</a>
-      <a href="#">Result</a>
-      <a href="#">About</a>
-      <a href="#" style="color:var(--blue)">Blogs</a>
-      <a href="#">Contact</a>
-    </div>
-  </header>
+@include('header')
 
   <!-- HERO BANNER -->
   <div class="hero">
@@ -133,11 +103,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   <script src="/sweet-alert2/sweetalert2.min.js"></script>
 
-  <script>
-    const ham = document.getElementById('ham');
-    const mNav = document.getElementById('mobileNav');
-    ham.addEventListener('click', () => mNav.classList.toggle('open'));
-  </script>
+  <script src="/js/custom-js.js"></script>
 
   <script>
     let blogs = [];
@@ -306,16 +272,10 @@
     `
       }).join('');
 
-    //   if (!result) {
-    //     tbody.innerHTML += `
-    //   <div style="margin-top:5%;" class="text-center alert alert-danger alert-dismissible fade show">
-    //     No Result Found
-    //     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    // </div>`;
-    //   }
     }
   </script>
 
+ 
 </body>
 
 </html>
