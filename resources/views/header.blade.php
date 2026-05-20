@@ -34,6 +34,11 @@
               <div class="dropdown-email">{{ auth()->user()->email }}</div>
             </div>
           </div>
+          <div style="color: #1a56db;" class="dropdown-item text-left " onclick="window.location.href='/api/auth/refresh'">
+            <i style="color: #1a56db;" class="ti ti-refresh" aria-hidden="true"></i>
+            Refresh Token
+          </div>
+
           <div class="dropdown-item text-center logout" onclick="window.location.href='/api/auth/logout'">
             <i class="ti ti-logout" aria-hidden="true"></i> Logout
           </div>

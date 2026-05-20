@@ -13,12 +13,21 @@ use App\Http\Controllers\Api\CommentController;
 
 // Admin Routes
 Route::middleware('admin.auth')->group(function () {
-Route::get('/all_blogs', function () {
+Route::get('/dashboard', function () {
     return view('all_blogs');
 });
 Route::get('/all_comments', function () {
     return view('all_comments');
 });
+
+Route::get('/add_blog', function () {
+    return view('add_blog',['categories'=> Category::all()]);
+});
+
+Route::get('/edit-blog/{id}', function ($id) {
+    $categories=Category::all();
+    return view('edit_blog',compact('id','categories'));
+})->name('edit-blog');
 });
 
 
@@ -44,16 +53,6 @@ Route::get('/admin_login', function () {
 })->name('admin_login');
 
 Route::post('/admin_login', [MyController::class, 'processLogin'])->name('auth.processLogin');
-
-Route::get('/add_blog', function () {
-    return view('add_blog',['categories'=> Category::all()]);
-});
-
-Route::get('/edit-blog/{id}', function ($id) {
-    $categories=Category::all();
-    return view('edit_blog',compact('id','categories'));
-})->name('edit-blog');
-
 
 Route::get('/blog-detail/{id}', function ($id) {
    $posts= Post::latest()->take(4)->get();

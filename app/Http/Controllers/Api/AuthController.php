@@ -36,11 +36,16 @@ class AuthController extends Controller
 
         $user = User::create($data);
 
-        $token = auth()->login($user);
+        // $token = auth()->login($user);
 
-        setcookie('jwt_token', $token, time() + 3600, '/');
+        // setcookie('jwt_token', $token, time() + 3600, '/');
 
-        return $this->tokenResponse($token, 201);
+        // return $this->tokenResponse($token, 201);
+        return response()->json([
+            'status' => true,
+            'user'         => $user,
+            'message' => 'Registered Successfully.'
+        ], 201);
     }
 
     /**
@@ -75,11 +80,23 @@ class AuthController extends Controller
     /**
      * Refresh the JWT token.
      */
-    public function refresh(): JsonResponse
+    public function refresh(Request $request)
     {
-        $token = Auth::refresh();
+        // $token = Auth::refresh();
 
-        return $this->tokenResponse($token);
+        try {
+            $token = $request->cookie('jwt_token');
+            if ($token) {
+                $newToken = JWTAuth::setToken($token)->refresh();
+                setcookie('jwt_token', $newToken, time() + 3600, '/');
+                return redirect('/auth/profile')->with('success', 'Token Refreshed Successfully.');
+            } else {
+                return redirect('/auth/login');
+            }
+        } catch (\Exception $e) {
+            // silent
+            return redirect('/auth/login');
+        }
     }
 
     /**

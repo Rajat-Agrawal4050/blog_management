@@ -17,6 +17,9 @@ Blogs Listing
 Filters By date, category, search keyword
 Blog Detail Page
 Admin Login
+User Login, Register
+JWT Authentication
+Rest Api 
 Admin can Add, Edit, Delete Blogs
 Images Upload and Rich Text Editor
 

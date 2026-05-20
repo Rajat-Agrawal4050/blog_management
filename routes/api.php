@@ -9,7 +9,7 @@ use App\Http\Controllers\Api\CommentController;
 
 // Auth actions
 Route::prefix('auth')->middleware('jwt.auth1')->group(function () {
-    Route::post('refresh', [AuthController::class, 'refresh']);
+    Route::get('refresh', [AuthController::class, 'refresh']);
     Route::get('logout',  [AuthController::class, 'logout']);
 });
 
@@ -17,6 +17,7 @@ Route::prefix('auth')->middleware('jwt.auth1')->group(function () {
 // Admin Routes
 
 Route::middleware('admin.auth')->group(function () {
+
 Route::delete('/delete_post', [MyController::class, 'deletePost'])->name('delete_post');
 
 Route::post('/blog/store', [MyController::class, 'store'])

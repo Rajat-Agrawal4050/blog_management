@@ -19,6 +19,7 @@ $post=Post::where('id',$id)->first();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 
@@ -54,7 +55,7 @@ $post=Post::where('id',$id)->first();
                 <div class="sidebar-card" style="min-height: 100vh;">
                     <p class="card-heading">Admin - Rajat Agrawal</p>
                     <ul class="cat-list">
-            <li><a href="/all_blogs"><span class="cat-left"><span class="cat-arrow">&#9658;</span> Dashboard</span></a></li>
+            <li><a href="/dashboard"><span class="cat-left"><span class="cat-arrow">&#9658;</span> Dashboard</span></a></li>
             <li><a href="/add_blog"><span class="cat-left"><span class="cat-arrow">&#9658;</span> Add Blogs</span></a></li>
             <li><a href="/all_comments"><span class="cat-left"><span class="cat-arrow">&#9658;</span> All Comments</span></a></li>
             <li><a href="/api/auth/logout"><span class="cat-left"><span class="cat-arrow">&#9658;</span> Logout</span></a></li>

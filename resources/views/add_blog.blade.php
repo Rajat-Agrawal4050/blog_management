@@ -17,6 +17,7 @@
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/sweet-alert2/sweetalert2.min.css">
@@ -48,7 +49,7 @@
                 <div class="sidebar-card" style="min-height: 100vh;">
                     <p class="card-heading">Admin - Rajat Agrawal</p>
                     <ul class="cat-list">
-                        <li><a href="/all_blogs"><span class="cat-left"><span class="cat-arrow">&#9658;</span> Dashboard</span></a></li>
+                        <li><a href="/dashboard"><span class="cat-left"><span class="cat-arrow">&#9658;</span> Dashboard</span></a></li>
                         <li><a href="/add_blog"><span class="cat-left"><span class="cat-arrow">&#9658;</span> Add Blogs</span></a></li>
                         <li><a href="/all_comments"><span class="cat-left"><span class="cat-arrow">&#9658;</span> All Comments</span></a></li>
                         <li><a href="/api/auth/logout"><span class="cat-left"><span class="cat-arrow">&#9658;</span> Logout</span></a></li>
