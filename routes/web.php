@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\CurrencyController;
 
 // Logged in Routes
  Route::get('/auth/profile',      [AuthController::class, 'showProfile'])->middleware('jwt.auth1');
@@ -63,3 +64,6 @@ Route::get('/blog-detail/{id}', function ($id) {
 Route::get('/get_blogs', [MyController::class, 'getBlogs'])->name('get_blogs');
 
 Route::get('get_comments', [CommentController::class, 'getAllComments'])->name('get_comments');
+
+Route::get('/currency', [CurrencyController::class, 'index']);
+Route::post('/currency/convert', [CurrencyController::class, 'convert']);

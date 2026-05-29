@@ -2,12 +2,12 @@
   <header>
     <div class="nav-inner">
       <a class="logo" href="#">
-        <div class="logo-icon">JY</div>
-        <span class="logo-text">JobYaari</span>
+        <div class="logo-icon">BS</div>
+        <span class="logo-text">Blog Site</span>
       </a>
       <nav>
         <a href="#">Home</a>
-        <a href="#" class="nav-jobs">Jobs</a>
+        <a href="#" class="nav-jobs">News</a>
         <a href="#">Admit Card</a>
         <a href="#">Result</a>
         <a href="#">About</a>
@@ -57,7 +57,7 @@
     </div>
     <div class="mobile-nav" id="mobileNav">
       <a href="#">Home</a>
-      <a href="#">Jobs ▾</a>
+      <a href="#">News ▾</a>
       <a href="#">Admit Card</a>
       <a href="#">Result</a>
       <a href="#">About</a>
