@@ -89,7 +89,7 @@
             </div>
             <div class="post-meta">
               <a class="post-title" href="#">{{ $p->title }}</a>
-              <span class="post-date"> {{ $p->created_at->format('d M Y') }}</span>
+              <span class="post-date"> {{ $p->created_at ? $p->created_at->format('d M Y') : '' }}</span>
             </div>
           </li>
           @endforeach
