@@ -19,7 +19,7 @@ class Comment extends Model
     // ─── Relationships ────────────────────────────────────
     public function post(): BelongsTo
     {
-        return $this->belongsTo(Post::class);
+        return $this->belongsTo(Post::class,'posts','id');
     }
 
     public function user(): BelongsTo
