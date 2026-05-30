@@ -444,7 +444,7 @@ $post = Post::where('id', $id)->first();
           @if(!$total_comments)
           <div class="jy-empty"><i class="ti ti-message-off" style="font-size:32px;display:block;margin:0 auto 8px" aria-hidden="true"></i>No comments yet. Be the first!</div>
           @endif
-          @foreach(Comment::with('user')->where('post_id',$id)->get() as $c)
+          @foreach(Comment::with('user')->where('post_id',$id)->latest()->get() as $c)
           <div class="jy-comment-card" id="card-1">
             <div class="jy-avatar" style="background:#1a5dc8;">{{ (isset(explode(' ',trim($c->user->name))[0]) ? strtoupper(explode(' ',trim($c->user->name))[0])[0] : '') . (isset(explode(' ',trim($c->user->name))[1]) ? strtoupper(explode(' ',trim($c->user->name))[1])[0] : '') }}</div>
             <div style="flex:1;min-width:0">
@@ -548,9 +548,9 @@ $post = Post::where('id', $id)->first();
           if (res.data) {
             $('#msg').val('');
             Swal.fire('success', 'Comment posted successfully!', 'success');
-            setTimeout(1000, function() {
+            setTimeout(function() {
               location.reload()
-            })
+            },1000)
 
           }
         },

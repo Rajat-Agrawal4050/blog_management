@@ -14,7 +14,7 @@
         <a href="/admin_login" class="active">Admin</a>
         <a href="#">Contact</a>
       </nav>
-      <a class="whatsapp-btn" href="#" title="WhatsApp"><i class="fab fa-whatsapp fa-lg"></i></a>
+      <!-- <a class="whatsapp-btn" href="#" title="WhatsApp"><i class="fab fa-whatsapp fa-lg"></i></a> -->
 
       @auth
 

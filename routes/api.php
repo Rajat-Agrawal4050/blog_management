@@ -31,6 +31,6 @@ Route::delete('comments/{comment}',    [CommentController::class, 'destroy'])->n
 });
 
 // Public comment
-Route::post('posts/{post}/comments',   [CommentController::class, 'store'])->name('comment.store');
+Route::post('posts/{post}/comments',   [CommentController::class, 'store'])->name('comment.store')->middleware('jwt.auth1');
 Route::get('posts/{post}/comments', [CommentController::class, 'index']);
 Route::get('comments/{comment}',    [CommentController::class, 'show']);

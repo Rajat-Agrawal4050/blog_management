@@ -24,7 +24,7 @@ class JwtMiddleware
        
        $token = $request->cookie('jwt_token');
     //    echo('jwt middleware');
-    //   dd($token);
+      // dd($token);
         if (!$token) {
             if ($request->expectsJson()) {
                 return response()->json(['message' => 'Unauthenticated.'], 401);
