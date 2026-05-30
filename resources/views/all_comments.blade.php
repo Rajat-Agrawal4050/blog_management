@@ -222,15 +222,15 @@
       <tr>
        <td class="text-center"><input class="form-check-input row-check" type="checkbox"></td>
         <td class="post-title-cell">
-          <strong>${b.post.title}</strong>
-          <span class="post-id-badge">ID #${b.post.id}</span>
+          <strong>${b.post?.title}</strong>
+          <span class="post-id-badge">ID #${b.post?.id}</span>
         </td>
     
         <td>
         <div class="commenter">
             <div class="avatar" style="background:#0891b2">${ b.user?.name?.split(' ')?.[0]?.[0] ?? '' }${ b.user?.name?.split(' ')?.[1]?.[0] ?? '' }</div>
             <div>
-              <div class="commenter-name">${b.user.name}</div>
+              <div class="commenter-name">${b.user?.name}</div>
               <div class="commenter-date">${formatted}</div>
             </div>
           </div>
