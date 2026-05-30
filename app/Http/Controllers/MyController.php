@@ -29,7 +29,18 @@ class MyController extends Controller
                 ], 401);
             }
 
-            setcookie('jwt_token', $token, time() + 3600, '/');
+           // setcookie('jwt_token', $token, time() + 3600, '/');
+             $cookie = cookie(
+        'jwt_token',   // name
+        $token,        // value
+        60,            // minutes (1 ghanta)
+        '/',           // path
+        null,          // domain
+        true,          // secure - HTTPS only
+        true,          // httpOnly - JS access nahi
+        false,         // raw
+        'strict'       // sameSite
+    );
 
             return response()->json([
                 'status' => true,
@@ -38,7 +49,7 @@ class MyController extends Controller
                 'expires_in'   => Auth::factory()->getTTL() * 60,
                 'user'         => Auth::user(),
                 'message' => 'Successfully Logged in.'
-            ], 200);
+            ], 200)->withCookie($cookie);
         } else {
             return response()->json([
                 'status' => false,
