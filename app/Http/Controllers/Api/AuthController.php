@@ -62,9 +62,19 @@ class AuthController extends Controller
         }
         // cookie me token store for 1 hour, response header me - Set-Cookie: jwt_token=eyJ0eXAiOiJKV1Qi... browser autoomatically save karega
         // next request me browser cookie bhejta hai, Cookie: jwt_token=eyJ0eXAiOiJKV1Qi... Developer ko manually bhejne ki zarurat nahi hoti.
-        setcookie('jwt_token', $token, time() + 3600, '/');
-
-        return $this->tokenResponse($token);
+      //  setcookie('jwt_token', $token, time() + 3600, '/');
+ $cookie = cookie(
+        'jwt_token',   // name
+        $token,        // value
+        60,            // minutes (1 ghanta)
+        '/',           // path
+        null,          // domain
+        true,          // secure - HTTPS only
+        true,          // httpOnly - JS access nahi
+        false,         // raw
+        'strict'       // sameSite
+    );
+        return $this->tokenResponse($token,200,$cookie);
     }
 
     /**
@@ -88,8 +98,19 @@ class AuthController extends Controller
             $token = $request->cookie('jwt_token');
             if ($token) {
                 $newToken = JWTAuth::setToken($token)->refresh();
-                setcookie('jwt_token', $newToken, time() + 3600, '/');
-                return redirect('/auth/profile')->with('success', 'Token Refreshed Successfully.');
+              //  setcookie('jwt_token', $newToken, time() + 3600, '/');
+                 $cookie = cookie(
+        'jwt_token',   // name
+        $newToken,        // value
+        60,            // minutes (1 ghanta)
+        '/',           // path
+        null,          // domain
+        true,          // secure - HTTPS only
+        true,          // httpOnly - JS access nahi
+        false,         // raw
+        'lax'       // sameSite
+    );
+                return redirect('/auth/profile')->withCookie($cookie);
             } else {
                 return redirect('/auth/login');
             }
@@ -118,13 +139,13 @@ class AuthController extends Controller
     }
 
     // ─── Helpers ──────────────────────────────────────────
-    private function tokenResponse(string $token, int $status = 200): JsonResponse
+    private function tokenResponse(string $token, int $status = 200,mixed $cookie): JsonResponse
     {
         return response()->json([
             'access_token' => $token,
             'token_type'   => 'bearer',
             'expires_in'   => Auth::factory()->getTTL() * 60,
             'user'         => Auth::user(),
-        ], $status);
+        ], $status)->withCookie($cookie);
     }
 }
