@@ -19,10 +19,11 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->web(prepend: [
+            \Illuminate\Cookie\Middleware\EncryptCookies::class,
             \App\Http\Middleware\GuestJwtMiddleware::class,
         ]);
 
-          $middleware->api(append: [
+          $middleware->api(prepend: [
         \Illuminate\Cookie\Middleware\EncryptCookies::class,        //  Decrypt/Encrypt
        // \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class, //  Cookie response mein add karna
     ]);
