@@ -300,9 +300,9 @@
 
       document.getElementById('modalCommentId').value = c.id;
       document.getElementById('modalAvatar').textContent = `${ c.user?.name?.split(' ')?.[0]?.[0] ?? '' }${ c.user?.name?.split(' ')?.[1]?.[0] ?? '' }`;
-      document.getElementById('modalCommenterName').textContent = c.user.name;
+      document.getElementById('modalCommenterName').textContent = c.user?.name;
       document.getElementById('modalCommenterDate').textContent = formatted;
-      document.getElementById('modalBlogBadge').textContent = `${c.post.title} · ID #${c.post.id}`;
+      document.getElementById('modalBlogBadge').textContent = `${c.post?.title} · ID #${c.post?.id}`;
       document.getElementById('modalCommentText').value = c.body;
       updateCharCount(c.body.length);
 
