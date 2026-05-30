@@ -22,6 +22,10 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\GuestJwtMiddleware::class,
         ]);
 
+          $middleware->api(append: [
+        \Illuminate\Cookie\Middleware\EncryptCookies::class,        //  Decrypt/Encrypt
+        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class, //  Cookie response mein add karna
+    ]);
         //        $middleware->api(prepend: [
         //     \App\Http\Middleware\JwtMiddleware::class,
         // ]);
