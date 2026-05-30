@@ -23,7 +23,7 @@ class GuestJwtMiddleware
     {
 
         $token = trim($request->cookie('jwt_token'));
-          dd($token);
+        //  dd($token);
         if ($token) {
             try {
                 $user = JWTAuth::setToken($token)->authenticate(); // checks and sets current auth user 
