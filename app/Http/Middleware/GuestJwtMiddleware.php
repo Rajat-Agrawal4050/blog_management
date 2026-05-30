@@ -28,13 +28,13 @@ class GuestJwtMiddleware
             try {
                 $user = JWTAuth::setToken($token)->authenticate(); // checks and sets current auth user 
             } catch (TokenExpiredException $e) {
-                dd($e->getMessage());
+              //  dd($e->getMessage());
             } catch (TokenInvalidException $e) {
-                 dd($e->getMessage());
+               //  dd($e->getMessage());
             } catch (JWTException $e) {
-                dd($e->getMessage());
+              //  dd($e->getMessage());
             } catch (\Exception $e) {
-                 dd($e->getMessage());
+              //   dd($e->getMessage());
                 // invalid/expired token, allow through
             }
         }
